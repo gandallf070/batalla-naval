@@ -215,3 +215,4 @@ print(jugador1.vida)
 # jugador1.mostrar(memoria_jugador1)
 jugador2.turno(matriz_llena_jugador2,memoria_jugador2)
 print(jugador2.vida)
+#yo no fui

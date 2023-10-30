@@ -121,13 +121,11 @@ class area():
             for j in range(self.columna):
                 matriz_llena_enemigo[i][j]=posicion_enemigo[i][j]
         return matriz_llena_enemigo
-    def turno(self,matriz_llena_jugador,memoria_jugador):
+    def atacar(self,matriz_llena_jugador,memoria_jugador):
         bandera=True
         contador=0
         print(self.nombre)
         jugador1.mostrar(matriz_llena_jugador)
-        # print("entrada")
-        # jugador1.mostrar(memoria_jugador)
         while bandera:
             bandera1=True
             while bandera1:
@@ -153,10 +151,6 @@ class area():
             # if (jugador1.vida<0 and jugador2.vida<0) or (enemigo.vida<0):
                 bandera=False
         print(contador, " contador ")
-        # print("salida")
-        # jugador1.mostrar(matriz_llena_jugador1)
-        # print("salida")
-        # jugador1.mostrar(memoria_jugador1)
 #objeto jugador 1
 def jugador_1(jugador1,matriz_llena_jugador1):  
     posicion=jugador1.posicion()
@@ -209,9 +203,7 @@ while bandera:
 enemigo=area(10,10,100,posicion_fila,posicion_columna,"enemigo")
 matriz_llena_enemigo=enemigo.llenar_matriz()
 enemigo_(enemigo,matriz_llena_enemigo)
-jugador1.turno(matriz_llena_jugador1,memoria_jugador1)
-print(jugador1.vida)
-# print("memoria")
-# jugador1.mostrar(memoria_jugador1)
-jugador2.turno(matriz_llena_jugador2,memoria_jugador2)
-print(jugador2.vida)
+# jugador1.atacar(matriz_llena_jugador1,memoria_jugador1)
+# print(jugador1.vida)
+# jugador2.atacar(matriz_llena_jugador2,memoria_jugador2)
+# print(jugador2.vida)

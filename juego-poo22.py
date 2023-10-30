@@ -203,7 +203,17 @@ while bandera:
 enemigo=area(10,10,100,posicion_fila,posicion_columna,"enemigo")
 matriz_llena_enemigo=enemigo.llenar_matriz()
 enemigo_(enemigo,matriz_llena_enemigo)
+<<<<<<< HEAD
 # jugador1.atacar(matriz_llena_jugador1,memoria_jugador1)
 # print(jugador1.vida)
 # jugador2.atacar(matriz_llena_jugador2,memoria_jugador2)
 # print(jugador2.vida)
+=======
+jugador1.turno(matriz_llena_jugador1,memoria_jugador1)
+print(jugador1.vida)
+# print("memoria")
+# jugador1.mostrar(memoria_jugador1)
+jugador2.turno(matriz_llena_jugador2,memoria_jugador2)
+print(jugador2.vida)
+#yo no fui
+>>>>>>> 2ca0b02763f2bcfa343fbc7b4638731dbd2662c4

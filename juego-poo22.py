@@ -8,9 +8,11 @@ class area():
         self.vida=vida
         self.posicion_fila=posicion_fila
         self.posicion_columna=posicion_columna
+    
     def posicion(self):
         posicion=[self.posicion_fila,self.posicion_columna]
         return posicion
+    
     def llenar_matriz(self):
         matriz=[0]*self.fila
         for i in range(self.fila):
@@ -121,28 +123,29 @@ class area():
             for j in range(self.columna):
                 matriz_llena_enemigo[i][j]=posicion_enemigo[i][j]
         return matriz_llena_enemigo
-    def atacar(self,matriz_llena_jugador,memoria_jugador):
+    
+    def atacar(self,matriz_llena,memoria):
         bandera=True
         contador=0
         print(self.nombre)
-        jugador1.mostrar(matriz_llena_jugador)
+        self.mostrar(matriz_llena)
         while bandera:
             bandera1=True
             while bandera1:
                 #posicion "i" , "j"
-                i=random.randint(0,9)
-                j=random.randint(0,4)
+                i=random.randint(0,(self.fila-1))
+                j=random.randint(0,(self.columna-1))
                 print(i," ",j)
                 #memoria jugador                
-                if (memoria_jugador[i][j]!=1):
-                    memoria_jugador[i][j]=1
+                if (memoria[i][j]!=1):
+                    memoria[i][j]=1
                     bandera1=False
                 contador+=1
-                if matriz_llena_jugador[i][j]==1:
+                if matriz_llena[i][j]==1:
                     print("se me fue mi amigo bronco ")
                     jugador1.vida-=16.7
-                    aux=matriz_llena_jugador[i][j]
-                    matriz_llena_jugador[i][j]=0
+                    aux=matriz_llena[i][j]
+                    matriz_llena[i][j]=0
                 else:
                     print("uff... casi!")
                     aux=0
@@ -151,6 +154,7 @@ class area():
             # if (jugador1.vida<0 and jugador2.vida<0) or (enemigo.vida<0):
                 bandera=False
         print(contador, " contador ")
+                                            
 #objeto jugador 1
 def jugador_1(jugador1,matriz_llena_jugador1):  
     posicion=jugador1.posicion()
@@ -168,7 +172,24 @@ def enemigo_(enemigo,matriz_llena_enemigo):
     posicion=enemigo.posicion()
     enemigo.cargar_enemigo(matriz_llena_enemigo,posicion,"posicion: ")
     #enemigo.mostrar(matriz_llena_enemigo)
-
+#secuencia de ataque
+def turno(matriz_llena_jugador1,memoria_jugador1,matriz_llena_jugador2,memoria_jugador2):
+        turno_jugador1=1
+        turno_jugador2=1
+        turno_enemigo=1
+        palabra=str(turno_jugador1)+str(turno_jugador2)+str(turno_enemigo)
+        print(palabra)
+        while((palabra=="111") or (palabra=="101")or(palabra=="011")):
+            if palabra=="111":
+                jugador1.atacar(matriz_llena_jugador1,memoria_jugador1)
+                print(jugador1.vida)
+                enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
+                print(jugador2.vida)
+                jugador2.atacar(matriz_llena_jugador2,memoria_jugador2)
+                print(jugador2.vida)
+                enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
+                print(jugador2.vida)
+                palabra="000"
 
 #algoritmo principal
 bandera=True
@@ -202,18 +223,10 @@ while bandera:
 #enemigo
 enemigo=area(10,10,100,posicion_fila,posicion_columna,"enemigo")
 matriz_llena_enemigo=enemigo.llenar_matriz()
+memoria_enemigo=enemigo.llenar_matriz()
 enemigo_(enemigo,matriz_llena_enemigo)
-<<<<<<< HEAD
 # jugador1.atacar(matriz_llena_jugador1,memoria_jugador1)
 # print(jugador1.vida)
 # jugador2.atacar(matriz_llena_jugador2,memoria_jugador2)
 # print(jugador2.vida)
-=======
-jugador1.turno(matriz_llena_jugador1,memoria_jugador1)
-print(jugador1.vida)
-# print("memoria")
-# jugador1.mostrar(memoria_jugador1)
-jugador2.turno(matriz_llena_jugador2,memoria_jugador2)
-print(jugador2.vida)
-#yo no fui
->>>>>>> 2ca0b02763f2bcfa343fbc7b4638731dbd2662c4
+turno(matriz_llena_jugador1,memoria_jugador1,matriz_llena_jugador2,memoria_jugador2)

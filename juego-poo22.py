@@ -143,17 +143,16 @@ class area():
                 contador+=1
                 if matriz_llena[i][j]==1:
                     print("se me fue mi amigo bronco ")
-                    jugador1.vida-=16.7
+                    self.vida-=16.7
                     aux=matriz_llena[i][j]
                     matriz_llena[i][j]=0
                 else:
                     print("uff... casi!")
                     aux=0
-            print(aux,"probar")
             if (aux==0):        
             # if (jugador1.vida<0 and jugador2.vida<0) or (enemigo.vida<0):
                 bandera=False
-        print(contador, " contador ")
+        print(contador, " disparo ")
                                             
 #objeto jugador 1
 def jugador_1(jugador1,matriz_llena_jugador1):  
@@ -180,18 +179,39 @@ def turno(matriz_llena_jugador1,memoria_jugador1,matriz_llena_jugador2,memoria_j
         palabra=str(turno_jugador1)+str(turno_jugador2)+str(turno_enemigo)
         print(palabra)
         while((palabra=="111") or (palabra=="101")or(palabra=="011")):
-            if palabra=="111":
+            if(jugador1.vida<=0):
+                    palara="011"
+            elif(jugador2.vida<=0):
+                    palabra="101"
+            elif(enemigo.vida<=0):
+                break
+            #comienzo
+            if (palabra=="111"):
                 jugador1.atacar(matriz_llena_jugador1,memoria_jugador1)
-                print(jugador1.vida)
+                print(jugador1.vida, " ", jugador1.nombre)
+                #atacando al enemigo 
                 enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
-                print(jugador2.vida)
+                print(enemigo.vida, " ", enemigo.nombre)
+                #atacando al jugador2
                 jugador2.atacar(matriz_llena_jugador2,memoria_jugador2)
-                print(jugador2.vida)
+                print(jugador2.vida, " ", jugador2.nombre)
+                #atacando al enemigo
                 enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
-                print(jugador2.vida)
-                palabra="000"
+                print(enemigo.vida, " ", enemigo.nombre)
+            #atacando al jugador1
+            elif(palabra=="101"):
+                jugador1.atacar(matriz_llena_jugador1,memoria_jugador1)
+                print(jugador1.vida, " ", jugador1.nombre)
+                enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
+                print(enemigo.vida, " ", enemigo.nombre)
+            #atacando al jugador2
+            elif(palabra=="011"):
+                jugador2.atacar(matriz_llena_jugador2,memoria_jugador2)
+                print(jugador2.vida, " ", jugador2.nombre)
+                enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
+                print(enemigo.vida, " ", enemigo.nombre)
 
-#algoritmo principal
+#algoritmo principal    
 bandera=True
 while bandera:
     posicion_fila1=random.randint(0,4)

@@ -248,14 +248,5 @@ enemigo=area(10,10,80,posicion_fila,posicion_columna,"enemigo")
 matriz_llena_enemigo=enemigo.llenar_matriz()
 memoria_enemigo=enemigo.llenar_matriz()
 enemigo_(enemigo,matriz_llena_enemigo)
-<<<<<<< HEAD
 
 turno(jugador1,jugador2,enemigo)
-=======
-# jugador1.atacar(matriz_llena_jugador1,memoria_jugador1)
-# print(jugador1.vida)
-# jugador2.atacar(matriz_llena_jugador2,memoria_jugador2)
-# print(jugador2.vida)
-turno(matriz_llena_jugador1,memoria_jugador1,matriz_llena_jugador2,memoria_jugador2)
-#holaa
->>>>>>> 71114da632124f57a94d58df883e8d26a3947bbe

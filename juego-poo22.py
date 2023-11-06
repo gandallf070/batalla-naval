@@ -125,21 +125,19 @@ class area():
                 matriz_llena_enemigo[i][j]=posicion_enemigo[i][j]
         return matriz_llena_enemigo
     
-    def atacar(self,matriz_llena,memoria):
+    def atacar_enemigo(self,matriz_llena,memoria):
         bandera=True
         bandera1=True
         contador=0
-        print(self.nombre)
-        # self.mostrar(matriz_llena)
-        # print("memoria",self.nombre)
-        # self.mostrar(memoria)
+        # print(self.nombre)
         while bandera:
             while bandera1:
                 #posicion "i" , "j"
                 i=random.randint(0,(self.fila-1))
                 j=random.randint(0,(self.columna-1))
+                print(" disparo al punto: ")
                 print(i," ",j)
-                #memoria jugador                
+                #memoria             
                 if (memoria[i][j]==0):
                     memoria[i][j]=1
                     bandera1=False
@@ -147,17 +145,47 @@ class area():
             if (matriz_llena[i][j]==1):
                 print("se me fue mi amigo bronco ")
                 (self.vida)-=5
-                #aux=matriz_llena[i][j]
                 matriz_llena[i][j]=0
+                bandera1=True
             else:
                 print("uff... casi!")
                 bandera=False
-                #aux=0
-            # if (aux==0): 
-            # # if (jugador1.vida<0 and jugador2.vida<0) or (enemigo.vida<0):
-            #         bandera=False
             print(contador, " disparo ")
-   
+        print(self.nombre)
+        self.mostrar(matriz_llena)
+        print(jugador1.vida," puntos de vida ",jugador1.nombre)
+        print(jugador2.vida," puntos de vida ",jugador2.nombre)
+        print(enemigo.vida," puntos de vida ",enemigo.nombre)
+    def atacar(self,matriz_llena,memoria):
+        bandera=True
+        bandera1=True
+        contador=0
+        # print(self.nombre)
+        while bandera:
+            while bandera1:
+                #posicion "i" , "j"
+                i=int(input("ingrese fila: \n"))
+                j=int(input("ingrese columna: \n"))
+                print(" disparo al punto: ")
+                print(i," ",j)
+                #memoria             
+                if (memoria[i][j]==0):
+                    memoria[i][j]=1
+                    bandera1=False
+            contador+=1
+            if (matriz_llena[i][j]==1):
+                print("se me fue mi amigo bronco ")
+                (self.vida)-=5
+                matriz_llena[i][j]=0
+                bandera1=True
+            else:
+                print("uff... casi!")
+                bandera=False
+            print(contador, " disparo ")
+        # self.mostrar(matriz_llena)
+        print(jugador1.vida," puntos de vida ",jugador1.nombre)
+        print(jugador2.vida," puntos de vida ",jugador2.nombre)
+        print(enemigo.vida," puntos de vida ",enemigo.nombre)
         
 
 #objeto jugador 1
@@ -182,32 +210,42 @@ def turno(jugador1,jugador2,enemigo):
     bandera=True
     while bandera:
         if (jugador1.vida>0 and jugador2.vida>0 and enemigo.vida>0):
-            jugador1.atacar(matriz_llena_jugador1,memoria_jugador1)
-            print(jugador1.vida,jugador1.nombre)
-            time.sleep(3)
+            print("ataque de: ",jugador1.nombre)
             enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
-            print(enemigo.vida,enemigo.nombre)
-            time.sleep(3)
-            jugador2.atacar(matriz_llena_jugador2,memoria_jugador2)
-            print(jugador2.vida,jugador2.nombre)
-            time.sleep(3)
+            # print(enemigo.vida," puntos de vida ",enemigo.nombre)
+            # time.sleep(3)
+            print("ataque de: ",enemigo.nombre)
+            jugador1.atacar_enemigo(matriz_llena_jugador1,memoria_jugador1)
+            # print(jugador1.vida," puntos de vida ",jugador1.nombre)
+            # time.sleep(3)
+            print("ataque de: ",jugador2.nombre)
             enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
-            print(enemigo.vida,enemigo.nombre)
-            time.sleep(3)
+            # print(enemigo.vida," puntos de vida ",enemigo.nombre)
+            # time.sleep(3)
+            print("ataque de: ",enemigo.nombre)
+            jugador2.atacar_enemigo(matriz_llena_jugador2,memoria_jugador2)
+            # print(jugador2.vida," puntos de vida ",jugador2.nombre)
+            # time.sleep(3)
+           
         elif(jugador1.vida>0 and jugador2.vida==0 and enemigo.vida>0):
-            jugador1.atacar(matriz_llena_jugador1,memoria_jugador1)
-            print(jugador1.vida,jugador1.nombre)
-            time.sleep(3)
+            print("ataque de: ",jugador1.nombre)
             enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
-            print(enemigo.vida,enemigo.nombre)
-            time.sleep(3)
-        elif(jugador1.vida==0 and jugador2.vida>0 and enemigo.vida>0):   
-            jugador2.atacar(matriz_llena_jugador2,memoria_jugador2)
-            print(jugador2.vida,jugador2.nombre)
-            time.sleep(3)
+            # print(enemigo.vida," puntos de vida ",enemigo.nombre)
+            # time.sleep(3)
+            print("ataque de: ",enemigo.nombre)
+            jugador1.atacar_enemigo(matriz_llena_jugador1,memoria_jugador1)
+            # print(jugador1.vida," puntos de vida ",jugador1.nombre)
+            # time.sleep(3)
+            
+        elif(jugador1.vida==0 and jugador2.vida>0 and enemigo.vida>0):
+            print("ataque de: ",jugador2.nombre)   
             enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
-            print(enemigo.vida,enemigo.nombre)
-            time.sleep(3)
+            # print(enemigo.vida," puntos de vida ",enemigo.nombre)
+            # time.sleep(3)
+            print("ataque de: ",enemigo.nombre)
+            jugador2.atacar_enemigo(matriz_llena_jugador2,memoria_jugador2)
+            # print(jugador2.vida," puntos de vida ",jugador2.nombre)
+            # time.sleep(3)
         elif((jugador1.vida>0 or jugador2.vida>0) and enemigo.vida==0):
             print(jugador1.vida,jugador1.nombre)
             print(jugador2.vida,jugador2.nombre)
@@ -256,5 +294,4 @@ enemigo=area(10,10,80,posicion_fila,posicion_columna,"enemigo")
 matriz_llena_enemigo=enemigo.llenar_matriz()
 memoria_enemigo=enemigo.llenar_matriz()
 enemigo_(enemigo,matriz_llena_enemigo)
-
 turno(jugador1,jugador2,enemigo)

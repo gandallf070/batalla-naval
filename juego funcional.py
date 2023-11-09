@@ -29,20 +29,20 @@ def colocar_barcos(tablero):
         tablero[fila][columna] = "B"
 
 # Función para dibujar el tablero de la máquina (sin mostrar barcos)
-def dibujar_tablero_maquina(tablero):
-    # fondo = pygame.image.load("Mar-3161677646/fondo.png")
-    # ventana.blit(fondo, (0, 0))
-    for fila in range(FILAS):
-        for columna in range(COLUMNAS):
-            pygame.draw.rect(ventana, NEGRO, (columna * TAMANO_CELDA, fila * TAMANO_CELDA, TAMANO_CELDA, TAMANO_CELDA), 1)
-            if tablero[fila][columna] == DISPARO_FALLADO:
-                pygame.draw.circle(ventana, NEGRO, (columna * TAMANO_CELDA + TAMANO_CELDA // 2, fila * TAMANO_CELDA + TAMANO_CELDA // 2), TAMANO_CELDA // 6)
-            elif tablero[fila][columna] == DISPARO_ACERTADO:
-                pygame.draw.line(ventana, NEGRO, (columna * TAMANO_CELDA, fila * TAMANO_CELDA), (columna * TAMANO_CELDA + TAMANO_CELDA, fila * TAMANO_CELDA + TAMANO_CELDA), 2)
-                pygame.draw.line(ventana, NEGRO, (columna * TAMANO_CELDA, fila * TAMANO_CELDA + TAMANO_CELDA), (columna * TAMANO_CELDA + TAMANO_CELDA, fila * TAMANO_CELDA), 2)
+# def dibujar_tablero_maquina(tablero):
+#     # fondo = pygame.image.load("Mar-3161677646/fondo.png")
+#     # ventana.blit(fondo, (0, 0))
+#     for fila in range(FILAS):
+#         for columna in range(COLUMNAS):
+#             pygame.draw.rect(ventana, NEGRO, (columna * TAMANO_CELDA, fila * TAMANO_CELDA, TAMANO_CELDA, TAMANO_CELDA), 1)
+#             if tablero[fila][columna] == DISPARO_FALLADO:
+#                 pygame.draw.circle(ventana, NEGRO, (columna * TAMANO_CELDA + TAMANO_CELDA // 2, fila * TAMANO_CELDA + TAMANO_CELDA // 2), TAMANO_CELDA // 6)
+#             elif tablero[fila][columna] == DISPARO_ACERTADO:
+#                 pygame.draw.line(ventana, NEGRO, (columna * TAMANO_CELDA, fila * TAMANO_CELDA), (columna * TAMANO_CELDA + TAMANO_CELDA, fila * TAMANO_CELDA + TAMANO_CELDA), 2)
+#                 pygame.draw.line(ventana, NEGRO, (columna * TAMANO_CELDA, fila * TAMANO_CELDA + TAMANO_CELDA), (columna * TAMANO_CELDA + TAMANO_CELDA, fila * TAMANO_CELDA), 2)
 
 
-# Función para dibujar el tablero del jugador
+#Función para dibujar el tablero del jugador
 def dibujar_tablero_jugador(tablero):
     for fila in range(FILAS):
         for columna in range(COLUMNAS):
@@ -108,7 +108,7 @@ while True:
 
     ventana.fill(BLANCO)
     dibujar_tablero_jugador(tablero_jugador)
-    dibujar_tablero_maquina(tablero_maquina)
+    #dibujar_tablero_maquina(tablero_maquina)
     pygame.display.flip()
 
     if todos_los_barcos_hundidos(tablero_jugador):

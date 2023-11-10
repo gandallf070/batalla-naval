@@ -1,9 +1,8 @@
 #jeugo-poo
 import random
-import time
 import pygame
 import random
-import sys
+import time
 class area():
     def __init__(self,n,m,vida,posicion_fila,posicion_columna,nombre):
         self.nombre=nombre
@@ -25,12 +24,6 @@ class area():
                 lista[j]=0
             matriz[i]=lista
         return matriz
-
-    # def mostrar(self,matriz_llena):
-    #     for i in range(self.fila):
-    #         for j in range(self.columna):
-    #             print(matriz_llena[i][j],end="  ")
-    #         print("")
 
     def cargar_jugador(self,matriz_llena,posicion,mensaje):
         # print(mensaje+self.nombre)
@@ -128,159 +121,54 @@ class area():
                 matriz_llena_enemigo[i][j]=posicion_enemigo[i][j]
         return matriz_llena_enemigo
 
-    # def atacar_enemigo(self,matriz_llena,memoria):
-    #     bandera=True
-    #     bandera1=True
-    #     contador=0
-    #     # print(self.nombre)
-    #     while bandera:
-    #         while bandera1:
-    #             #posicion "i" , "j"
-    #             i=random.randint(0,(self.fila-1))
-    #             j=random.randint(0,(self.columna-1))
-    #             # print(" disparo al punto: ")
-    #             # print(i," ",j)
-    #             #memoria
-    #             if (memoria[i][j]==0):
-    #                 memoria[i][j]=1
-    #                 bandera1=False
-    #         contador+=1
-    #         if (matriz_llena[i][j]==1):
-    #             # print("se me fue mi amigo bronco ")
-    #             (self.vida)-=5
-    #             matriz_llena[i][j]=0
-    #             bandera1=True
-    #         else:
-    #             # print("uff... casi!")
-    #             bandera=False
-            # print(contador, " disparo ")
-        # print(self.nombre)
-        # self.mostrar(matriz_llena)
-        # print(jugador1.vida," puntos de vida ",jugador1.nombre)
-        # print(jugador2.vida," puntos de vida ",jugador2.nombre)
-        # print(enemigo.vida," puntos de vida ",enemigo.nombre)
-
-    # def atacar(self,matriz_llena,memoria):
-    #     bandera=True
-    #     bandera1=True
-    #     contador=0
-    #     # print(self.nombre)
-    #     while bandera:
-    #         while bandera1:
-    #             #posicion "i" , "j"
-    #             i=5
-    #             j=5
-    #             # print(" disparo al punto: ")
-    #             # print(i," ",j)
-    #             #memoria
-    #             if (memoria[i][j]==0):
-    #                 memoria[i][j]=1
-    #                 bandera1=False
-    #         contador+=1
-    #         if (matriz_llena[i][j]==1):
-    #             # print("se me fue mi amigo bronco ")
-    #             (self.vida)-=5
-    #             matriz_llena[i][j]=0
-    #             bandera1=True
-    #         else:
-    #             # print("uff... casi!")
-    #             bandera=False
-    #         print(contador, " disparo ")
-        # self.mostrar(matriz_llena)
-        # print(jugador1.vida," puntos de vida ",jugador1.nombre)
-        # print(jugador2.vida," puntos de vida ",jugador2.nombre)
-        # print(enemigo.vida," puntos de vida ",enemigo.nombre)
-
 #objeto jugador 1
 def jugador_1(jugador1,matriz_llena_jugador1):
     posicion=jugador1.posicion()
-    #print(jugador1.nombre)
     jugador1.cargar_jugador(matriz_llena_jugador1,posicion,"posicion del tanke: ")
-    #jugador1.mostrar(matriz_llena_jugador1)
 #Objeto jugador2
 def jugador_2(jugador2,matriz_llena_jugador2):
     posicion=jugador2.posicion()
-    #print(jugador2.nombre)
+    
     jugador2.cargar_jugador(matriz_llena_jugador2,posicion,"posicion del tanke: ")
-    #jugador2.mostrar(matriz_llena_jugador2)
 #enemigo
 def enemigo_(enemigo,matriz_llena_enemigo):
     posicion=enemigo.posicion()
     enemigo.cargar_enemigo(matriz_llena_enemigo,posicion,"posicion: ")
-    #enemigo.mostrar(matriz_llena_enemigo)
  #secuencia de ataque
-def draw_matrix(matrix, top_left, color, border_color):
+def dibujar(matrix, top_left, color, border_color):
     filax, columnax = len(matrix), len(matrix[0])
     for i in range(filax):
         for j in range(columnax):
             if matrix[i][j] == 0:
                 pygame.draw.rect(screen, color, pygame.Rect(top_left[0] + j*tamaño_celda, top_left[1] + i*tamaño_celda, tamaño_celda, tamaño_celda), 1)
-                
             else:
-                pygame.draw.rect(screen, AMARILLO, pygame.Rect(top_left[0] + j*tamaño_celda, top_left[1] + i*tamaño_celda, tamaño_celda, tamaño_celda))
+
+                pygame.draw.rect(screen, NEGRO, pygame.Rect(top_left[0] + j*tamaño_celda, top_left[1] + i*tamaño_celda, tamaño_celda, tamaño_celda))
     pygame.draw.rect(screen, border_color, pygame.Rect(top_left[0], top_left[1], columnax*tamaño_celda, filax*tamaño_celda), 3)  
-
-def draw_jugador(memoria, top_left, color, border_color):
-    filax, columnax = len(memoria), len(memoria[0])
-    for i in range(filax):
-        for j in range(columnax):
-            if memoria[i][j] == 0:
-                pygame.draw.rect(screen, BLANCO, pygame.Rect(top_left[0] + j*tamaño_celda, top_left[1] + i*tamaño_celda, tamaño_celda, tamaño_celda))
-                pygame.draw.rect(screen, color, pygame.Rect(top_left[0] + j*tamaño_celda, top_left[1] + i*tamaño_celda, tamaño_celda, tamaño_celda), 2)
-            
+def enemigo_ataca():
+    for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = pygame.mouse.get_pos()
+                if 50 <= x <= 50 +   10*tamaño_celda and 50 <= y <= 50 + 10*tamaño_celda:
+                    i = (y - 50) // tamaño_celda
+                    j = (x - 50) // tamaño_celda
+                    if (matriz_llena_enemigo[i][j] == 1 and memoria_enemigo[i][j] == 0):
+                        memoria_enemigo[i][j] = 1
+                        enemigo.vida-=5
+                        print("WHILE")
     
-    pygame.draw.rect(screen, border_color, pygame.Rect(top_left[0], top_left[1], columnax*tamaño_celda, filax*tamaño_celda), 3)
-
-# def turno(jugador1,jugador2,enemigo):
-#     bandera=True
-#     while bandera:
-#         if (jugador1.vida>0 and jugador2.vida>0 and enemigo.vida>0):
-#             # print("ataque de: ",jugador1.nombre)
-#             enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
-#             # print(enemigo.vida," puntos de vida ",enemigo.nombre)
-#             # time.sleep(3)
-#             # print("ataque de: ",enemigo.nombre)
-#             jugador1.atacar_enemigo(matriz_llena_jugador1,memoria_jugador1)
-#             # print(jugador1.vida," puntos de vida ",jugador1.nombre)
-#             # time.sleep(3)
-#             # print("ataque de: ",jugador2.nombre)
-#             enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
-#             # print(enemigo.vida," puntos de vida ",enemigo.nombre)
-#             # time.sleep(3)
-#             # print("ataque de: ",enemigo.nombre)
-#             jugador2.atacar_enemigo(matriz_llena_jugador2,memoria_jugador2)
-#             # print(jugador2.vida," puntos de vida ",jugador2.nombre)
-#             # time.sleep(3)
-
-#         elif(jugador1.vida>0 and jugador2.vida==0 and enemigo.vida>0):
-#             print("ataque de: ",jugador1.nombre)
-#             enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
-#             # print(enemigo.vida," puntos de vida ",enemigo.nombre)
-#             # time.sleep(3)
-#             print("ataque de: ",enemigo.nombre)
-#             jugador1.atacar_enemigo(matriz_llena_jugador1,memoria_jugador1)
-#             # print(jugador1.vida," puntos de vida ",jugador1.nombre)
-#             # time.sleep(3)
-
-#         elif(jugador1.vida==0 and jugador2.vida>0 and enemigo.vida>0):
-#             print("ataque de: ",jugador2.nombre)
-#             enemigo.atacar(matriz_llena_enemigo,memoria_enemigo)
-#             # print(enemigo.vida," puntos de vida ",enemigo.nombre)
-#             # time.sleep(3)
-#             print("ataque de: ",enemigo.nombre)
-#             jugador2.atacar_enemigo(matriz_llena_jugador2,memoria_jugador2)
-#             # print(jugador2.vida," puntos de vida ",jugador2.nombre)
-#             # time.sleep(3)
-#         elif((jugador1.vida>0 or jugador2.vida>0) and enemigo.vida==0):
-#             print(jugador1.vida,jugador1.nombre)
-#             print(jugador2.vida,jugador2.nombre)
-#             print(enemigo.vida,enemigo.nombre)
-#             bandera=False
-#         elif((jugador1.vida==0 and jugador2.vida==0) and enemigo.vida>0):
-#             print(jugador1.vida,jugador1.nombre)
-#             print(jugador2.vida,jugador2.nombre)
-#             print(enemigo.vida,enemigo.nombre)
-#             bandera=False
+def jugador_ataca(matriz):
+        i=random.randint(0,(jugador1.fila-1))
+        j=random.randint(0,(jugador1.columna-1))
+        print("posicion: ",i,j)
+        if matriz[i][j]==1:
+            matriz[i][j]=0
+            jugador1.vida-=5  
+def turno():
+    pass
 
 #algoritmo principal
 bandera=True
@@ -315,7 +203,7 @@ while bandera:
         bandera=False
 #enemigo
 #fila,columna,vida,posicion_fila,posicion_columna,nombre
-enemigo=area(10,10,80,posicion_fila,posicion_columna,"enemigo")
+enemigo=area(10,10,105,posicion_fila,posicion_columna,"enemigo")
 matriz_llena_enemigo=enemigo.llenar_matriz()
 memoria_enemigo=enemigo.llenar_matriz()
 enemigo_(enemigo,matriz_llena_enemigo)
@@ -327,37 +215,33 @@ BLANCO = (255, 255, 255)
 ROJO = (255, 0, 0)
 VERDE = (0, 255, 0)
 AZUL = (0, 0, 255)
+CELESTE = (128, 191, 255)
 AMARILLO = (255, 255, 0)
 NEGRO = (0, 0, 0)
 tamaño_celda = 50
+#ataca solamente 1 vez.,..hasta crear turnos
+jugador_ataca(matriz_llena_jugador1)
+jugador_ataca(matriz_llena_jugador2)
+#ataque hacia la maquina
 running=True
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            x, y = pygame.mouse.get_pos()
-            if 50 <= x <= 50 + 10*tamaño_celda and 50 <= y <= 50 + 10*tamaño_celda:
-                i = (y - 50) // tamaño_celda
-                j = (x - 50) // tamaño_celda
-                if matriz_llena_enemigo[i][j] == 1:
-                    memoria_enemigo[i][j] = 1
-
-                    print(f'Has hecho clic en la celda ({i}, {j}) de la matriz "enemigo".')
-    screen.fill(BLANCO)
+    if enemigo.vida==0:
+        break      
+    else:
+        enemigo_ataca()
+    screen.fill(CELESTE)
     font = pygame.font.Font(None, 36)
-    text = font.render('Enemigo', 1, (10, 10, 10))
+    text = font.render('Enemigo'+" = "+str(enemigo.vida), 2, (10, 10, 10))
     screen.blit(text, (50, 10))
-    draw_matrix(matriz_llena_enemigo, (50, 50), ROJO, NEGRO)
-    draw_jugador( memoria_enemigo, (50, 50), ROJO, NEGRO)
+    dibujar(memoria_enemigo, (50, 50), ROJO, NEGRO)
 
-    text = font.render('Jugador 1', 1, (10, 10, 10))
+    text = font.render('Jugador 1'+" = "+str(jugador1.vida), 1, (10, 10, 10))
     screen.blit(text, (50 + 10*tamaño_celda, 10))
-    draw_matrix(matriz_llena_jugador1, (50 + 10*tamaño_celda, 50), VERDE, NEGRO)
+    dibujar(matriz_llena_jugador1, (50 + 10*tamaño_celda, 50), VERDE, NEGRO)
 
-    text = font.render('Jugador 2', 1, (10, 10, 10))
+    text = font.render('Jugador 2'+" = "+str(jugador2.vida), 1, (10, 10, 10))
     screen.blit(text, (50 + 15*tamaño_celda, 10))
-    draw_matrix(matriz_llena_jugador2, (50 + 15*tamaño_celda, 50), AZUL, NEGRO)
+    dibujar(matriz_llena_jugador2, (50 + 15*tamaño_celda, 50), AZUL, NEGRO)
     pygame.display.flip()
 pygame.quit()
-# turno(jugador1,jugador2,enemigo)
+

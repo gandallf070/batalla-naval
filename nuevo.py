@@ -2,7 +2,8 @@
 import random
 import pygame
 import random
-import time
+import os
+import sys
 class area():
     def __init__(self,n,m,vida,posicion_fila,posicion_columna,nombre):
         self.nombre=nombre
@@ -120,7 +121,13 @@ class area():
             for j in range(self.columna):
                 matriz_llena_enemigo[i][j]=posicion_enemigo[i][j]
         return matriz_llena_enemigo
-
+    def jugador_ataca(self,matriz):
+        i=random.randint(0,(jugador1.fila-1))
+        j=random.randint(0,(jugador1.columna-1))
+        print("posicion: ",i,j)
+        if matriz[i][j]==1:
+            matriz[i][j]=0
+            self.vida-=5
 #objeto jugador 1
 def jugador_1(jugador1,matriz_llena_jugador1):
     posicion=jugador1.posicion()
@@ -145,31 +152,17 @@ def dibujar(matrix, top_left, color, border_color):
 
                 pygame.draw.rect(screen, NEGRO, pygame.Rect(top_left[0] + j*tamaño_celda, top_left[1] + i*tamaño_celda, tamaño_celda, tamaño_celda))
     pygame.draw.rect(screen, border_color, pygame.Rect(top_left[0], top_left[1], columnax*tamaño_celda, filax*tamaño_celda), 3)  
-def enemigo_ataca():
-    for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                x, y = pygame.mouse.get_pos()
-                if 50 <= x <= 50 +   10*tamaño_celda and 50 <= y <= 50 + 10*tamaño_celda:
-                    i = (y - 50) // tamaño_celda
-                    j = (x - 50) // tamaño_celda
-                    if (matriz_llena_enemigo[i][j] == 1 and memoria_enemigo[i][j] == 0):
-                        memoria_enemigo[i][j] = 1
-                        enemigo.vida-=5
-                        print("WHILE")
-    
-def jugador_ataca(matriz):
-        i=random.randint(0,(jugador1.fila-1))
-        j=random.randint(0,(jugador1.columna-1))
-        print("posicion: ",i,j)
-        if matriz[i][j]==1:
-            matriz[i][j]=0
-            jugador1.vida-=5  
-def turno():
-    pass
-
+def colores():
+    ANCHO, ALTO = 1100, 600
+    screen = pygame.display.set_mode((ANCHO, ALTO))
+    BLANCO = (255, 255, 255)
+    ROJO = (255, 0, 0)
+    VERDE = (0, 255, 0)
+    AZUL = (0, 0, 255)
+    CELESTE = (128, 191, 255)
+    AMARILLO = (255, 255, 0)
+    NEGRO = (0, 0, 0)
+    tamaño_celda = 50   
 #algoritmo principal
 bandera=True
 while bandera:
@@ -219,16 +212,42 @@ CELESTE = (128, 191, 255)
 AMARILLO = (255, 255, 0)
 NEGRO = (0, 0, 0)
 tamaño_celda = 50
-#ataca solamente 1 vez.,..hasta crear turnos
-jugador_ataca(matriz_llena_jugador1)
-jugador_ataca(matriz_llena_jugador2)
 #ataque hacia la maquina
 running=True
+turno_jugador=True
+contador=0
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+sound = pygame.mixer.Sound("disparo .mp3")
 while running:
-    if enemigo.vida==0:
-        break      
-    else:
-        enemigo_ataca()
+    for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                sys.exit()
+                pygame.quit()
+            elif event.type == pygame.MOUSEBUTTONDOWN and turno_jugador:
+                x, y = pygame.mouse.get_pos()
+                if 50 <= x <= 50 +   10*tamaño_celda and 50 <= y <= 50 + 10*tamaño_celda:
+                    i = (y - 50) // tamaño_celda
+                    j = (x - 50) // tamaño_celda
+                    sound.play()
+                    if (matriz_llena_enemigo[i][j] == 1 and memoria_enemigo[i][j] == 0):
+                        memoria_enemigo[i][j] = 1
+                        enemigo.vida-=5
+                    if jugador1.vida>0 and jugador2.vida>0 and enemigo.vida!=0:
+                        contador+=1
+                    elif jugador1.vida==0 and jugador2.vida>0 and enemigo.vida!=0:
+                        contador=2
+                    elif jugador1.vida>0 and jugador2.vida==0 and enemigo.vida!=0:
+                        contador=1
+                    turno_jugador=False
+    if not turno_jugador and contador % 2!=0:
+        jugador1.jugador_ataca(matriz_llena_jugador1)
+        turno_jugador=True
+    elif not turno_jugador and contador % 2==0:
+        jugador2.jugador_ataca(matriz_llena_jugador2)
+        turno_jugador=True
+    elif (jugador1.vida==0 and jugador2.vida==0) or enemigo.vida==0:
+        running=False 
     screen.fill(CELESTE)
     font = pygame.font.Font(None, 36)
     text = font.render('Enemigo'+" = "+str(enemigo.vida), 2, (10, 10, 10))

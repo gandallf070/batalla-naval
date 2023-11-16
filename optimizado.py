@@ -1,8 +1,88 @@
+# import pygame
+# import random
+
+# # Inicializar Pygame
+# pygame.init()
+
+# # Definir dimensiones de la ventana
+# width, height = 1100, 600
+# screen = pygame.display.set_mode((width, height))
+
+# # Definir colores
+# WHITE = (12,183,242)
+# RED = (255, 0, 0)
+# GREEN = (0, 255, 0)
+# BLUE = (0, 0, 255)
+# YELLOW = (255, 255, 0)
+# BLACK = (0, 0, 0)
+
+# # Definir matrices
+# enemigo = [[0]*10 for _ in range(10)]
+# jugador1 = [[0]*5 for _ in range(10)]
+# jugador2 = [[0]*5 for _ in range(10)]
+
+# # Definir tamaño de las celdas
+# cell_size = 50
+
+# # Dibujar matrices
+# def draw_matrix(matrix, top_left, color, border_color):
+#     rows, cols = len(matrix), len(matrix[0])
+#     for i in range(rows):
+#         for j in range(cols):
+#             if matrix[i][j] == 0:
+#                 pygame.draw.rect(screen, color, pygame.Rect(top_left[0] + j*cell_size, top_left[1] + i*cell_size, cell_size, cell_size), 1)
+#             else:
+#                 pygame.draw.rect(screen, YELLOW, pygame.Rect(top_left[0] + j*cell_size, top_left[1] + i*cell_size, cell_size, cell_size))
+#     pygame.draw.rect(screen, border_color, pygame.Rect(top_left[0], top_left[1], cols*cell_size, rows*cell_size), 3)
+
+# # Cambiar aleatoriamente una celda de una matriz
+# def random_change(matrix):
+#     rows, cols = len(matrix), len(matrix[0])
+#     i = random.randint(0, rows - 1)
+#     j = random.randint(0, cols - 1)
+#     matrix[i][j] = 1
+
+# # # Bucle principal
+# # running = True
+# # random_change(jugador1)
+# # random_change(jugador2)
+# # while running:
+# #     for event in pygame.event.get():
+# #         if event.type == pygame.QUIT:
+# #             running = False
+# #         elif event.type == pygame.MOUSEBUTTONDOWN:
+# #             x, y = pygame.mouse.get_pos()
+# #             if 50 <= x <= 50 + 10*cell_size and 50 <= y <= 50 + 10*cell_size:
+# #                 i = (y - 50) // cell_size
+# #                 j = (x - 50) // cell_size
+# #                 if enemigo[i][j] == 0:
+# #                     enemigo[i][j] = 1
+# #                     print(f'Has hecho clic en la celda ({i}, {j}) de la matriz "enemigo".')
+
+# #     screen.fill(WHITE)
+
+# #     font = pygame.font.Font(None, 36)
+# #     text = font.render('Enemigo', 1, (10, 10, 10))
+# #     screen.blit(text, (50, 10))
+# #     draw_matrix(enemigo, (50, 50), RED, BLACK)
+
+# #     text = font.render('Jugador 1', 1, (10, 10, 10))
+# #     screen.blit(text, (50 + 10*cell_size, 10))
+# #     draw_matrix(jugador1, (50 + 10*cell_size, 50), GREEN, BLACK)
+
+# #     text = font.render('Jugador 2', 1, (10, 10, 10))
+# #     screen.blit(text, (50 + 15*cell_size, 10))
+# #     draw_matrix(jugador2, (50 + 15*cell_size, 50), BLUE, BLACK)
+
+# #     pygame.display.flip()
 import pygame
 import random
 
 # Inicializar Pygame
 pygame.init()
+
+# Establecer título de la ventana
+pygame.display.set_caption("Mi juego")
 
 # Definir dimensiones de la ventana
 width, height = 1100, 600
@@ -73,6 +153,11 @@ while running:
     text = font.render('Jugador 2', 1, (10, 10, 10))
     screen.blit(text, (50 + 15*cell_size, 10))
     draw_matrix(jugador2, (50 + 15*cell_size, 50), BLUE, BLACK)
+
+    # Agregar título del juego
+    text = font.render('Mi juego', 1, (10, 10, 10))
+    text_rect = text.get_rect(center=(width//2, 30))
+    screen.blit(text, text_rect.move(0, -20))
 
     pygame.display.flip()
 

@@ -27,8 +27,6 @@ class area():
         return matriz
 
     def cargar_jugador(self,matriz_llena,posicion,mensaje):
-        # print(mensaje+self.nombre)
-        # print(posicion)
         i=posicion[0]
         j=posicion[1]
         posicion_jugador1=[[0,1,0,0,0],[1,1,1,0,0],[1,0,1,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
@@ -65,8 +63,6 @@ class area():
         return matriz_llena
 
     def cargar_enemigo(self,matriz_llena_enemigo,posicion,mensaje):
-        # print(mensaje,enemigo.nombre)
-        # print(posicion)
         i=posicion[0]
         j=posicion[1]
         posicion_enemigo1=[[0,0,0,1,0,0,0,0,0,0],[1,0,0,1,0,0,1,0,0,0],[1,1,1,1,1,1,1,0,0,0],[0,0,1,1,1,0,0,0,0,0],[0,0,0,1,0,0,0,0,0,0],[0,1,1,1,1,1,0,0,0,0],[0,0,0,1,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]]
@@ -121,13 +117,22 @@ class area():
             for j in range(self.columna):
                 matriz_llena_enemigo[i][j]=posicion_enemigo[i][j]
         return matriz_llena_enemigo
-    def jugador_ataca(self,matriz):
-        i=random.randint(0,(jugador1.fila-1))
-        j=random.randint(0,(jugador1.columna-1))
-        print("posicion: ",i,j)
-        if matriz[i][j]==1:
-            matriz[i][j]=0
-            self.vida-=5
+    def jugador_ataca(self,matriz,memoria):
+        bandera=True
+        while bandera:
+            i=random.randint(0,(jugador1.fila-1))
+            j=random.randint(0,(jugador1.columna-1))
+            print("posicion: ",i,j)
+            print("golpe a: ",self.nombre)
+            if matriz[i][j]==1 and memoria[i][j]==0:
+                matriz[i][j]=0
+                memoria[i][j]=1
+                self.vida-=5
+                bandera=True
+                print("meydey!!")
+            elif matriz[i][j]==0:
+                bandera=False
+                print("fallo")
 #objeto jugador 1
 def jugador_1(jugador1,matriz_llena_jugador1):
     posicion=jugador1.posicion()
@@ -149,20 +154,8 @@ def dibujar(matrix, top_left, color, border_color):
             if matrix[i][j] == 0:
                 pygame.draw.rect(screen, color, pygame.Rect(top_left[0] + j*tamaño_celda, top_left[1] + i*tamaño_celda, tamaño_celda, tamaño_celda), 1)
             else:
-
                 pygame.draw.rect(screen, NEGRO, pygame.Rect(top_left[0] + j*tamaño_celda, top_left[1] + i*tamaño_celda, tamaño_celda, tamaño_celda))
-    pygame.draw.rect(screen, border_color, pygame.Rect(top_left[0], top_left[1], columnax*tamaño_celda, filax*tamaño_celda), 3)  
-def colores():
-    ANCHO, ALTO = 1100, 600
-    screen = pygame.display.set_mode((ANCHO, ALTO))
-    BLANCO = (255, 255, 255)
-    ROJO = (255, 0, 0)
-    VERDE = (0, 255, 0)
-    AZUL = (0, 0, 255)
-    CELESTE = (128, 191, 255)
-    AMARILLO = (255, 255, 0)
-    NEGRO = (0, 0, 0)
-    tamaño_celda = 50   
+    pygame.draw.rect(screen, border_color, pygame.Rect(top_left[0], top_left[1], columnax*tamaño_celda, filax*tamaño_celda), 3)
 #algoritmo principal
 bandera=True
 while bandera:
@@ -223,16 +216,17 @@ while running:
             if event.type == pygame.QUIT:
                 running = False
                 sys.exit()
-                pygame.quit()
             elif event.type == pygame.MOUSEBUTTONDOWN and turno_jugador:
-                x, y = pygame.mouse.get_pos()
-                if 50 <= x <= 50 +   10*tamaño_celda and 50 <= y <= 50 + 10*tamaño_celda:
-                    i = (y - 50) // tamaño_celda
-                    j = (x - 50) // tamaño_celda
-                    sound.play()
+                    x, y = pygame.mouse.get_pos()
+                    if 50 <= x <= 50 +   10*tamaño_celda and 50 <= y <= 50 + 10*tamaño_celda:
+                        i = (y - 50) // tamaño_celda
+                        j = (x - 50) // tamaño_celda
+                        sound.play()
+                        bandera=True
                     if (matriz_llena_enemigo[i][j] == 1 and memoria_enemigo[i][j] == 0):
                         memoria_enemigo[i][j] = 1
                         enemigo.vida-=5
+                        bandera=True
                     if jugador1.vida>0 and jugador2.vida>0 and enemigo.vida!=0:
                         contador+=1
                     elif jugador1.vida==0 and jugador2.vida>0 and enemigo.vida!=0:
@@ -241,26 +235,37 @@ while running:
                         contador=1
                     turno_jugador=False
     if not turno_jugador and contador % 2!=0:
-        jugador1.jugador_ataca(matriz_llena_jugador1)
+        jugador1.jugador_ataca(matriz_llena_jugador1,memoria_jugador1)
         turno_jugador=True
+        aux=jugador1.nombre
     elif not turno_jugador and contador % 2==0:
-        jugador2.jugador_ataca(matriz_llena_jugador2)
+        jugador2.jugador_ataca(matriz_llena_jugador2,memoria_jugador2)
         turno_jugador=True
+        aux=jugador2.nombre
     elif (jugador1.vida==0 and jugador2.vida==0) or enemigo.vida==0:
-        running=False 
+        running=False
+    if contador %2==0:
+        aux=jugador1.nombre
+    else:
+        aux=jugador2.nombre
     screen.fill(CELESTE)
     font = pygame.font.Font(None, 36)
-    text = font.render('Enemigo'+" = "+str(enemigo.vida), 2, (10, 10, 10))
-    screen.blit(text, (50, 10))
+    text = font.render(str(enemigo.nombre)+" = "+str(enemigo.vida), 2, (10, 10, 10))
+    screen.blit(text, (50, 20))
     dibujar(memoria_enemigo, (50, 50), ROJO, NEGRO)
 
-    text = font.render('Jugador 1'+" = "+str(jugador1.vida), 1, (10, 10, 10))
-    screen.blit(text, (50 + 10*tamaño_celda, 10))
+    text = font.render(str(jugador1.nombre)+" = "+str(jugador1.vida), 1, (10, 10, 10))
+    screen.blit(text, (50 + 10*tamaño_celda, 20))
     dibujar(matriz_llena_jugador1, (50 + 10*tamaño_celda, 50), VERDE, NEGRO)
 
-    text = font.render('Jugador 2'+" = "+str(jugador2.vida), 1, (10, 10, 10))
-    screen.blit(text, (50 + 15*tamaño_celda, 10))
+    text = font.render(str(jugador2.nombre)+" = "+str(jugador2.vida), 1, (10, 10, 10))
+    screen.blit(text, (50 + 15*tamaño_celda, 20))
     dibujar(matriz_llena_jugador2, (50 + 15*tamaño_celda, 50), AZUL, NEGRO)
+    
+    text = font.render('TURNO: '+str(aux), 1, (10, 10, 10))
+    text_rect = text.get_rect(center=(ANCHO//2, 30))
+    screen.blit(text, text_rect.move(0, -20))
+
     pygame.display.flip()
 pygame.quit()
 
